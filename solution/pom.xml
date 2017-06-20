@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org</groupId>
+		<artifactId>codecamp</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>org.codecamp</groupId>
+	<artifactId>YourNameService</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>solution Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+			<version>2.2.10</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>wsgen</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- Needed with JAXP 1.5 -->
+					<vmArgs>
+						<vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+					</vmArgs>
+					<sei>org.codecamp.solution.ws.YourNameImpl</sei>
+					<genWsdl>true</genWsdl>
+					<keep>true</keep>
+					<resourceDestDir>${basedir}/src/main/webapp/WEB-INF/wsdl</resourceDestDir>
+					<sourceDestDir>${basedir}/src/main/java</sourceDestDir>
+					<verbose>true</verbose>
+					<xdebug>true</xdebug>
+					<!-- <args>-classpath ${basedir}/../darwin-jaxb/target/generated-sources/jaxb</args> -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}/src/main/webapp/WEB-INF/wsdl</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+						<fileset>
+							<directory>${basedir}/src/main/java/org/codecamp/solution/ws/jaxws</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>		
+	</build>
+</project>
